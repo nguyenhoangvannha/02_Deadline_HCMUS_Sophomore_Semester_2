@@ -1,0 +1,25 @@
+.data
+A: .word 1, 30, 3
+size: .word 3
+NL: .asciiz "\n"
+.text
+.globl main
+main:
+la $t1, A		# get array address
+
+#lb $s0,3($t1)
+
+#lay gia tri cac phan tu cua man gan vao thanh ghi
+lw $t0, ($t1) #A[0]
+lw $t2, 4($t1)#A[1]
+lw $t3, 8($t1)#A[2]
+
+#hoan doi va luu lai vao ram
+sw $t0, 4($t1)
+sw $t2, 8($t1)
+sw $t3, ($t1)
+
+
+done:
+li $v0,10
+syscall

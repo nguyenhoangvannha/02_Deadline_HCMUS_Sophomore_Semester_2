@@ -1,0 +1,54 @@
+
+.data # Data declaration section
+prompt: .asciiz "Enter an integer value\n"
+.text
+#.globl main
+main: # Start of code section
+jal get_integer
+move $a0,$v0
+jal giaithua
+move $a0,$v0
+jal print_integer
+j exit
+
+f:
+li $t0, 1 # check for base case
+bgt $a0, $t0, giaithua
+li $v0, 1 # if so, set return value
+jr $ra # and return
+
+giaithua:
+addi $sp, $sp, -8 # make space in stack
+sw $ra, 4($sp) # return address, and
+sw $a0, 0($sp) # N
+addi $a0, $a0, -1 # calc N-1 for recursive call
+jal f # calc (N-1)!
+lw $t1, 0($sp) # restore N from stack
+mul $v0, $v0, $t1 # multiply (N-1)! by N
+lw $ra, 4($sp) # restore return address from
+# stack
+addi $sp, $sp, 8 # and restore stack pointer
+jr $ra # and return
+
+print_integer:
+li $v0,1
+syscall
+jr $ra
+
+get_integer:
+# Prompt the user to enter an integer value. Read and return
+# it. It takes no parameters.
+li $v0, 4 # system call code for printing a
+# string = 4
+la $a0, prompt # address of string is argument 0 to
+# print_string
+syscall # call operating system to perform
+# print operation
+li $v0, 5 # get ready to read in integers
+syscall # system waits for input, puts the
+# value in $v0
+jr $ra
+
+exit:
+li $v0,10
+syscall

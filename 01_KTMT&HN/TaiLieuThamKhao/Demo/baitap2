@@ -1,0 +1,105 @@
+.data
+str1: .asciiz "Nhap so a =  "
+str2: .asciiz "Nhap so b = "
+str3: .asciiz "\na+b = "
+str4: .asciiz "\na-b = "
+str5: .asciiz "\na*b = "
+str6: .asciiz "\na/b = "
+str7: .asciiz "\na%b = "
+str8: .asciiz "\na > b"
+str9: .asciiz "\na < b"
+str10: .asciiz "\na = b"
+
+.text
+.globl main
+main:
+#Nhap 2 so nguyen tinh tong-hieu-tich-thuong
+#Nhap so a
+la $a0,str1
+li $v0, 4
+syscall
+
+li	$v0, 5
+syscall
+move $s0,$v0
+#Nhap so b
+la $a0,str2
+li $v0, 4
+syscall
+
+li	$v0, 5
+syscall
+move $s1,$v0
+
+#Tong
+#la $a0,str3
+#li $v0, 4
+#syscall
+#add $a0,$s0,$s1
+#li	$v0, 1
+#syscall
+
+#Hieu
+#la $a0,str4
+#li $v0, 4
+#syscall
+#sub $a0,$s0,$s1
+#li	$v0, 1
+#syscall
+
+#Tich
+la $a0,str5
+li $v0, 4
+syscall
+mult $s0,$s1
+mflo $a0
+li	$v0, 1
+syscall
+mfhi $a0
+li	$v0, 1
+syscall
+
+#Thuong
+la $a0,str6
+li $v0, 4
+syscall
+div $s0,$s1
+mflo $a0
+li	$v0, 1
+syscall
+
+#So du
+la $a0,str7
+li $v0, 4
+syscall
+div $s0,$s1
+mfhi $a0
+li	$v0, 1
+syscall
+#################################
+#So sanh a va b
+
+
+beq $s0,$s1,Bang
+bgt $s0,$s1,Lon
+j Nho
+
+Lon:
+la $a0,str8
+li $v0, 4
+syscall
+j Exit
+Nho:
+la $a0,str9
+li $v0, 4
+syscall
+j Exit
+Bang:
+la $a0,str10
+li $v0, 4
+syscall
+j Exit
+
+Exit:
+addi $v0, $zero, 10
+syscall

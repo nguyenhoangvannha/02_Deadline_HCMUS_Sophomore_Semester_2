@@ -1,0 +1,20 @@
+    # Register Use Chart
+        # $f0 -- x
+        # $f2 -- sum of terms
+        . . . . . 
+        
+ 
+        
+li $v0,6
+syscall
+# print the result
+        mov.s   $f12,$f0            # $f12 = argument
+        li      $v0,2               # print single
+        syscall
+
+  
+
+        li      $v0,10              # code 10 == exit
+        syscall                     # Return to OS.
+
+

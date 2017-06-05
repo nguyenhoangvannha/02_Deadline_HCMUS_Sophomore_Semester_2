@@ -1,0 +1,44 @@
+.data
+str1: .asciiz "Nhap mot ky tu: "
+str2: .asciiz "\nKy tu lien truoc: "
+str3: .asciiz "\nKy tu lien sau: "
+str4: .asciiz "\nKy tu in hoa:"
+.text
+.globl main
+main:
+#Nhap ky tu, xuat ky tu lien truoc va lien sau
+la $a0,str1
+li $v0, 4
+syscall
+#Read char
+li $v0, 12
+syscall
+move $t0, $v0
+#Ky tu lien truoc
+la $a0,str2
+li $v0, 4
+syscall
+sub $a0,$t0,1
+li $v0,11
+syscall
+#Ky tu lien sau
+la $a0,str3
+li $v0, 4
+syscall
+add $a0,$t0,1
+li $v0,11
+syscall
+#################################################
+#Nhap ky tu thuong xuat ky tu in hoa
+la $a0,str4
+li $v0, 4
+syscall
+sub $a0,$t0,32
+li $v0,11
+syscall
+###############################################
+
+
+#Exit
+addi $v0, $zero, 10
+syscall

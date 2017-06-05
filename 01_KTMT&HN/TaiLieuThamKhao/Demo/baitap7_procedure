@@ -1,0 +1,49 @@
+
+
+
+.data # Data declaration section
+prompt: .asciiz "Enter an integer value\n"
+.text
+#.globl main
+main: # Start of code section
+jal get_integer # Call procedure
+move $s0, $v0 # Put returned value in "save" reg
+jal get_integer
+move $s1, $v0
+jal Add
+move $a0,$s0
+jal print_integer
+j exit
+
+
+print_integer:
+li $v0,1
+syscall
+jr $ra
+
+get_integer:
+# Prompt the user to enter an integer value. Read and return
+# it. It takes no parameters.
+li $v0, 4 # system call code for printing a
+# string = 4
+la $a0, prompt # address of string is argument 0 to
+# print_string
+syscall # call operating system to perform
+# print operation
+li $v0, 5 # get ready to read in integers
+syscall # system waits for input, puts the
+# value in $v0
+jr $ra
+
+Add:
+addi $sp,$sp,-4
+sw $ra,0($sp)
+add $s0,$s0,$s1
+#move $v0, $s0
+lw $ra,0($sp)
+addi $sp,$sp,4
+jr $ra
+
+exit:
+li $v0,10
+syscall
